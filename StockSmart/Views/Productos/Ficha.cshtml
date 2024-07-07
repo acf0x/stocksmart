@@ -1,0 +1,144 @@
+﻿@model Producto
+
+@*
+*@
+@{
+    var controller = ViewContext.RouteData.Values["controller"].ToString().ToLower();
+    var action = ViewContext.RouteData.Values["action"].ToString().ToLower();
+}
+
+@section Styles {
+}
+
+@section Scripts {
+    <script type="text/javascript">
+        let controller = "@controller";
+        let action = "@action";
+
+        $(document).ready(function () {
+            //App.Page.Products.File.OnLoad();
+        });
+    </script>
+}
+
+<br />
+<div class="row">
+    <div class="col">
+        <h1>Ficha de Producto</h1>
+        <hr />
+        <br />
+    </div>
+</div>
+
+<form asp-controller="@controller" asp-action="@action" asp-route-id="@Model.ProductID" method="post">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    @if (action == "nuevo")
+                    {
+                        <h4><b>Nuevo Producto</b></h4>
+                    }
+                    else
+                    {
+                        <h4><b>@Model.ProductName</b></h4>
+                    }
+                </div>
+                <div class="card-body">
+                    @if (action == "nuevo")
+                    {
+                        <input type="hidden" class="form-control" asp-for="ProductID" />
+                    }
+                    else
+                    {
+                        <div class="form-group row mb-2">
+                            <label asp-for="ProductID" class="col-sm-2 col-form-label"></label>
+                            <!-- <label for="ProductID" class="col-sm-2 col-form-label">ProductID</label> -->
+                            <!-- <label for="ProductID" class="col-sm-2 col-form-label">Referencia</label> -->
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" asp-for="ProductID" />
+                                <!-- <input type="text" class="form-control" id="ProductID" name="ProductID" value="3" /> -->
+                                <span asp-validation-for="ProductID" class="text-danger"></span>
+                            </div>
+                        </div>
+                    }
+                    <div class="form-group row mb-2">
+                        <label asp-for="ProductName" class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" asp-for="ProductName" />
+                            <span asp-validation-for="ProductName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label asp-for="SupplierID" class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10">
+                            <select class="form-control" asp-for="SupplierID" asp-items="ViewBag.Proveedores"></select>
+                            <span asp-validation-for="SupplierID" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label asp-for="CategoryID" class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10">
+                            <select class="form-control" asp-for="CategoryID" asp-items="ViewBag.Categorias"></select>
+                            <span asp-validation-for="CategoryID" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label asp-for="QuantityPerUnit" class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" asp-for="QuantityPerUnit" />
+                            <span asp-validation-for="QuantityPerUnit" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label asp-for="UnitPrice" class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10">
+                            <input type="currency" class="form-control" asp-for="UnitPrice" />
+                            <span asp-validation-for="UnitPrice" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label asp-for="UnitsInStock" class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" asp-for="UnitsInStock" />
+                            <span asp-validation-for="UnitsInStock" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label asp-for="UnitsOnOrder" class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" asp-for="UnitsOnOrder" />
+                            <span asp-validation-for="UnitsOnOrder" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label asp-for="ReorderLevel" class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" asp-for="ReorderLevel" />
+                            <span asp-validation-for="ReorderLevel" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2">
+                        <label asp-for="Discontinued" class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" asp-for="Discontinued" />
+                            <span asp-validation-for="Discontinued" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-6">
+            <a asp-controller="productos" asp-action="index" class="btn btn-success">volver</a>
+        </div>
+        <div class="col-6 text-end">
+            <input type="submit" class="btn btn-primary" value="Grabar" />
+        </div>
+    </div>
+</form>
+<br />
+<br />

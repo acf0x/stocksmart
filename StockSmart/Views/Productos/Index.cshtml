@@ -1,0 +1,71 @@
+﻿@model List<Producto>
+
+@**@
+@{}
+
+@section Styles {}
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            App.Page.Products.List.OnLoad();
+        });
+    </script>
+}
+
+<br />
+<div class="row">
+    <div class="col">
+        <h1>Listado de Productos</h1>
+        <hr />
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <table id="productos" class="table table-striped">
+            <thead>
+                <tr>
+                    <th style="max-width: 10px;"><b>Referencía</b></th>
+                    <th style="width: 30px;"><b>Descripción</b></th>
+                    <th style="max-width: 15px;"><b>Categoría</b></th>
+                    <th style="max-width: 10px;"><b>Precio</b></th>
+                    <th style="max-width: 10px;"><b>Stock</b></th>
+                    <th style="max-width: 25px;"><b> </b></th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td> 
+                        @item.ProductID
+                    </td>
+                    <td>
+                        <a asp-controller="productos" asp-action="ficha" asp-route-id="@item.ProductID">
+                            @item.ProductName
+                        </a>
+                    </td>
+                    <td>
+                        @item.CategoryID
+                    </td>
+                    <td class="text-end">
+                        @(item.UnitPrice == null ? "sin precio" : Convert.ToDecimal(item.UnitPrice).ToString("N2"))
+                    </td>
+                    <td class="text-end text-units" data-stock="@item.UnitsInStock" data-order="@item.UnitsOnOrder">
+                        <span   data-bs-toggle="tooltip"
+                                data-bs-placement="right"
+                                data-bs-html="true"
+                                title="<b>Stock:</b> @item.UnitsInStock <br /><b>Pedido:</b> @item.UnitsOnOrder">@item.UnitsInStock</span>
+                    </td>
+                    <td> </td>
+                </tr>
+            }                
+            </tbody>
+        </table>  
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <a asp-controller="productos" asp-action="nuevo" class="btn btn-success">Nuevo Producto</a>
+    </div>
+</div>
