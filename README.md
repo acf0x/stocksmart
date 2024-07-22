@@ -1,4 +1,4 @@
-# Solución Stock Smart
+# ===== Solución Stock Smart =====
 
 ## Descripción de la solución
 
