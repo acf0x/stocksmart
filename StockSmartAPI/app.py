@@ -5,10 +5,10 @@ import uuid
 app = Flask(__name__)
 
 # Configuración de Cosmos DB
-COSMOS_URL = 'https://democosmospd.documents.azure.com/'
-COSMOS_KEY = '0xeX5OLpoabjFyt21r1k0sPgh7ITL84wUMNSpqoC7u8dnwQNgb5XlxMqlRIuKlXphvtlKEhQ57V3ACDb4dyRNw=='
-DATABASE_NAME = 'democosmospd'
-CONTAINER_NAME = 'democontainerpd'
+COSMOS_URL = ''
+COSMOS_KEY = ''
+DATABASE_NAME = ''
+CONTAINER_NAME = ''
 
 # Inicializar el cliente de Cosmos DB
 client = CosmosClient(COSMOS_URL, COSMOS_KEY)
