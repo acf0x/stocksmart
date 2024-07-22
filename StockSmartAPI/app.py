@@ -8,56 +8,56 @@ app = Flask(__name__)
 COSMOS_URL = ''
 COSMOS_KEY = ''
 DATABASE_NAME = ''
-CONTAINER_NAME = ''
+CONTAINER_NAME = '' 
 
 # Inicializar el cliente de Cosmos DB
 client = CosmosClient(COSMOS_URL, COSMOS_KEY)
-database = client.create_database_if_not_exists(id=DATABASE_NAME)
-container = database.create_container_if_not_exists(
-    id=CONTAINER_NAME,
-    partition_key=PartitionKey(path="/id")
-)
+database = client.create_database_if_not_exists(DATABASE_NAME)
+container = database.create_container_if_not_exists(CONTAINER_NAME)
 
 @app.route('/data/products', methods=['GET'])
-def get_stocks():
+def get_products():
     query = "SELECT * FROM c"
-    items = list(container.query_items(
-        query=query,
-        enable_cross_partition_query=True
-    ))
+    items = list(container.query_items(query))
     return jsonify(items)
 
-@app.route('/productos/nuevo', methods=['POST'])
-def create_stock():
+@app.route('/data/products/<id>', methods=['GET'])
+def get_product(id):
+    query = f"SELECT * FROM c WHERE c.ProductID EQUALS {id}"
+    item = container.query_item(query)
+    return jsonify(item)
+
+@app.route('/products/new', methods=['POST'])
+def create_product():
     data = request.get_json()
-    
+
     # Validar y extraer los parámetros
-    descripcion = data.get('descripcion')
-    proveedor = data.get('proveedor')
-    categoria = data.get('categoria')
-    cantidades_por_unidad = data.get('cantidades_por_unidad')
-    precio = data.get('precio')
-    stock = data.get('stock')
-    stock_pedido = data.get('stock_pedido')
-    nivel = data.get('nivel')
-    descuentos = data.get('descuentos')
+    #nombre = data.get('ProductName')
+    #proveedorID = data.get('SupplierID')
+    #categoriaID = data.get('CategoryID')
+    #cantidadesPorUnidad = data.get('QuantityPerUnit')
+    #precioUnidad = data.get('UnitPrice')
+    #stock = data.get('UnitsInStock')
+    #stockReservado = data.get('UnitsOnOrder')
+    #reorderLevel = data.get('ReorderLevel')
+    #descontinuado = data.get('Discontinued')
 
     # Crear el nuevo ítem con los parámetros
     nuevo_item = {
-        'id': str(uuid.uuid4()),  # Generar un ID único
-        'descripcion': descripcion,
-        'proveedor': proveedor,
-        'categoria': categoria,
-        'cantidades_por_unidad': cantidades_por_unidad,
-        'precio': precio,
-        'stock': stock,
-        'stock_pedido': stock_pedido,
-        'nivel': nivel,
-        'descuentos': descuentos
+        'ProductID': str(uuid.uuid4()),  # Generar un ID único
+        'ProductName': data.get('ProductName'),
+        'SupplierID': data.get('SupplierID'),
+        'CategoryID': data.get('CategoryID'),
+        'QuantityPerUnit': data.get('QuantityPerUnit'),
+        'UnitPrice': data.get('UnitPrice'),
+        'UnitsInStock': data.get('UnitsInStock'),
+        'UnitsOnOrder': data.get('UnitsOnOrder'),
+        'ReorderLevel': data.get('ReorderLevel'),
+        'Discontinued': data.get('Discontinued')
     }
 
     # Insertar el nuevo ítem en el contenedor
-    container.create_item(body=nuevo_item)
+    container.create_item(nuevo_item)
     return jsonify(nuevo_item), 201
 
 if __name__ == '__main__':
