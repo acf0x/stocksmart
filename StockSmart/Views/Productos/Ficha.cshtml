@@ -8,9 +8,11 @@
 }
 
 @section Styles {
+    <!-- Código HTML, CSS y/o JS // Razor -->
 }
 
 @section Scripts {
+    <!-- Razor -->
     <script type="text/javascript">
         let controller = "@controller";
         let action = "@action";
@@ -31,6 +33,7 @@
 </div>
 
 <form asp-controller="@controller" asp-action="@action" asp-route-id="@Model.ProductID" method="post">
+    @Html.AntiForgeryToken()
     <div class="row">
         <div class="col">
             <div class="card">
@@ -133,10 +136,10 @@
     <br />
     <div class="row">
         <div class="col-6">
-            <a asp-controller="productos" asp-action="index" class="btn btn-success">volver</a>
+            <a asp-controller="productos" asp-action="index" class="btn btn-success">Volver</a>
         </div>
         <div class="col-6 text-end">
-            <input type="submit" class="btn btn-primary" value="Grabar" />
+            <input type="submit" class="btn btn-primary" value="Guardar" />
         </div>
     </div>
 </form>

@@ -5,7 +5,7 @@ namespace StockSmart.Models
     public class Producto
     {
         [Display(Name = "Referencia")]
-        [Required(ErrorMessage = "La <b>Referencía</b> es un dato requerido.")]
+        [Required(ErrorMessage = "La <b>Referencia</b> es un dato requerido.")]
         public int ProductID { get; set; }
 
         [Display(Name = "Descripción")]
