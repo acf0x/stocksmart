@@ -3,6 +3,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+# Environment variable
+.env
+
 # User-specific files
 *.rsuser
 *.suo
@@ -10,6 +13,7 @@
 *.userosscache
 *.sln.docstates
 *.claves
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
