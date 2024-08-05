@@ -1,10 +1,11 @@
 #!/bin/bash
 #INSTRUCCIONES:
+# 0. Establece las variables de entorno de Azure, asegurate de que no se repitan nombres de recursos
 # 1. Asegrate de que estés logeado en Azure
 # 2. Asegrate de que estés en el directorio raíz del proyecto
 # 3. Ejecuta el script
 # 4. Espera a que se cree todo los recursos
-# 5. 
+
 
 # Variables
 resourceGroup="miGrupoDeRecursos3"
