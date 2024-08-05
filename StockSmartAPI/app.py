@@ -5,11 +5,11 @@ import os
 import uuid
 
 
-# TODO: Cambiar products por Productos porque en el frontend llama a "Productos"
 app = Flask(__name__)
 load_dotenv()
 
-# Configuración de Cosmos DB
+# Configuración de Cosmos DB 
+# TODO: PONERLO BONITO -> incluir archivo configuración-userfriendly
 cosmos_url = os.getenv("url")
 cosmos_key = os.getenv("key")
 database_name = os.getenv("db")
@@ -22,7 +22,7 @@ container = database.get_container_client(container_name)
 
 
 # GET products
-@app.route('/products', methods=['GET'])
+@app.route('/productos', methods=['GET'])
 def get_products():
     query = "SELECT * FROM c"
     
@@ -37,7 +37,7 @@ def get_products():
 
 
 # GET products/id
-@app.route('/products/<id>', methods=['GET'])
+@app.route('/productos/<id>', methods=['GET'])
 def get_product(id):
     query = f"SELECT * FROM c WHERE c.ProductID = '{id}'"
     
@@ -53,7 +53,7 @@ def get_product(id):
 
 
 # POST product
-@app.route('/products', methods=['POST'])
+@app.route('/productos', methods=['POST'])
 def create_product():
     product_data = request.json
     if not product_data:
@@ -71,7 +71,7 @@ def create_product():
 
 
 # PUT product
-@app.route('/products/<id>', methods=['PUT'])
+@app.route('/productos/<id>', methods=['PUT'])
 def update_product(id):
     product_data = request.json
     if not product_data:
@@ -96,6 +96,16 @@ def update_product(id):
     except exceptions.CosmosHttpResponseError as e:
         return jsonify({"Error": str(e)}), 500
 
+
+# DELETE product
+@app.route('/productos/<id>', methods=['DELETE'])
+def delete_product(id):
+    try:
+        container.delete_item(item=id, partition_key="/ProductID")
+        return jsonify({"message": "Producto eliminado correctamente."}), 200
+    
+    except exceptions.CosmosHttpResponseError as e:
+        return jsonify({"Error": str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

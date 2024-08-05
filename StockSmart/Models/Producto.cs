@@ -19,7 +19,7 @@ namespace StockSmart.Models
         [Display(Name = "Categoría")]
         public int? CategoryID { get; set; }
 
-        [Display(Name = "Cantidades por unidad")]
+        [Display(Name = "Unidades por paquete")]
         public string QuantityPerUnit { get; set; }
 
         [Display(Name = "Precio")]
@@ -34,7 +34,7 @@ namespace StockSmart.Models
         [Display(Name = "Nivel")]
         public short? ReorderLevel { get; set; }
 
-        [Display(Name = "Descuentos")]
-        public bool Discontinued { get; set; }
+        [Display(Name = "Discontinuado")]
+        public int Discontinued { get; set; }
     }
 }
