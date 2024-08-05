@@ -21,6 +21,29 @@ $cosmosDBAccount = "micosmosdb00000003"
 $cosmosDBDatabase = "mibasededatos00000003"
 
 Clear-Host
+echo -e "AUTO AZURE MK1 Windows
+░░░░░░░░░░░▄▄▀▀▀▀▀▀▀▀▄▄
+░░░░░░░░▄▀▀░░░░░░░░░░░░▀▄▄
+░░░░░░▄▀░░░░░░░░░░░░░░░░░░▀▄
+░░░░░▌░░░░░░░░░░░░░▀▄░░░░░░░▀▀▄
+░░░░▌░░░░░░░░░░░░░░░░▀▌░░░░░░░░▌
+░░░▐░░░░░░░░░░░░▒░░░░░▌░░░░░░░░▐
+░░░▌▐░░░░▐░░░░▐▒▒░░░░░▌░░░░░░░░░▌
+░░▐░▌░░░░▌░░▐░▌▒▒▒░░░▐░░░░░▒░▌▐░▐
+░░▐░▌▒░░░▌▄▄▀▀▌▌▒▒░▒░▐▀▌▀▌▄▒░▐▒▌░▌
+░░░▌▌░▒░░▐▀▄▌▌▐▐▒▒▒▒▐▐▐▒▐▒▌▌░▐▒▌▄▐
+░▄▀▄▐▒▒▒░▌▌▄▀▄▐░▌▌▒▐░▌▄▀▄░▐▒░▐▒▌░▀▄
+▀▄▀▒▒▌▒▒▄▀░▌█▐░░▐▐▀░░░▌█▐░▀▄▐▒▌▌░░░▀
+░▀▀▄▄▐▒▀▄▀░▀▄▀░░░░░░░░▀▄▀▄▀▒▌░▐
+░░░░▀▐▀▄▒▀▄░░░░░░░░▐░░░░░░▀▌▐
+░░░░░░▌▒▌▐▒▀░░░░░░░░░░░░░░▐▒▐
+░░░░░░▐░▐▒▌░░░░▄▄▀▀▀▀▄░░░░▌▒▐
+░░░░░░░▌▐▒▐▄░░░▐▒▒▒▒▒▌░░▄▀▒░▐
+░░░░░░▐░░▌▐▐▀▄░░▀▄▄▄▀░▄▀▐▒░░▐
+░░░░░░▌▌░▌▐░▌▒▀▄▄░░░░▄▌▐░▌▒░▐
+░░░░░▐▒▐░▐▐░▌▒▒▒▒▀▀▄▀▌▐░░▌▒░▌
+░░░░░▌▒▒▌▐▒▌▒▒▒▒▒▒▒▒▐▀▄▌░▐▒▒▌
+Made By \x1b@4k4i_"
 Write-Host "----------------------------------------------"
 Write-Host "Iniciando sesión en Azure..."
 # Iniciar sesión en Azure
@@ -97,3 +120,7 @@ az functionapp config set --resource-group $resourceGroup --name $functionApp --
 Write-Host "Recuerda configurar el trigger de Cosmos DB en el código de tu Function App."
 
 Write-Host "Recursos creados con éxito y datos insertados en Cosmos DB."
+
+# Añadir la orden "presione una tecla para continuar"
+Write-Host "Presione cualquier tecla para continuar..."
+$null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
