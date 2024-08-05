@@ -11,25 +11,53 @@ namespace StockSmart.Controllers
 
         public ProductosController()
         {
-            _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri("https://127.0.0.1:5000/");
+            var handler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
+            };
+            _httpClient = new HttpClient(handler);
+            _httpClient.BaseAddress = new Uri("http://127.0.0.1:5000/");
         }
 
         // GET: Products
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var response = await _httpClient.GetAsync("products");
-            var productos = await response.Content.ReadAsStringAsync();
-            var product_list = JsonConvert.DeserializeObject<List<Producto>>(productos);
-            return Ok(View(product_list));
+            try
+            {
+                var response = await _httpClient.GetAsync("productos");
+                
+                if (!response.IsSuccessStatusCode)
+                {
+                    // Log the error status code
+                    Console.WriteLine($"Error: {response.StatusCode}");
+                    return StatusCode((int)response.StatusCode, $"Error al obtener productos: {response.ReasonPhrase}");
+                }
+
+                var productos = await response.Content.ReadAsStringAsync();
+                var product_list = JsonConvert.DeserializeObject<List<Producto>>(productos);
+                
+                if (product_list == null)
+                {
+                    return StatusCode(500, "Error al deserializar la lista de productos");
+                }
+
+                return View(product_list);
+            }
+
+            catch (Exception e)
+            {
+                // Log the exception
+                Console.WriteLine($"Exception: {e.Message}");
+                return StatusCode(500, $"Error interno del servidor: {e.Message}");
+            }
         }
 
         // GET: Products/5
         [HttpGet]
         public async Task<IActionResult> Ficha(int id)
         {            
-            var response = await _httpClient.GetAsync($"products/{id}");
+            var response = await _httpClient.GetAsync($"productos/{id}");
             var producto = await response.Content.ReadAsStringAsync();
             var producto_obj = JsonConvert.DeserializeObject<Producto>(producto);
             return Ok(View(producto_obj));
@@ -63,55 +91,39 @@ namespace StockSmart.Controllers
         }
 
 
-        // // GET: ProductosController/Nuevo
-        // public ActionResult Nuevo()
-        // {
-        //     return View("Ficha", new Producto());
-        // }
+        // GET: ProductosController/Nuevo
+        public ActionResult Nuevo()
+        {
+            return View("Ficha", new Producto());
+        }
 
-        // // POST: Products/Nuevo
-        // [HttpPost]
-        // [ValidateAntiForgeryToken]
-        // public async Task<IActionResult> Nuevo(Producto producto)
-        // {
-        //     try
-        //     {
-        //         var producto = new Producto
-        //         {
-        //             // TODO: REVISAR
-        //             ProductID = int.Parse(producto.ProductID),
-        //             ProductName = producto.ProductName,
-        //             SupplierID = int.Parse(producto.SupplierID),
-        //             CategoryID = int.Parse(producto.CategoryID),
-        //             QuantityPerUnit = producto.QuantityPerUnit,
-        //             UnitPrice = decimal.Parse(producto.UnitPrice),
-        //             UnitsInStock = short.Parse(producto.UnitsInStock),
-        //             UnitsOnOrder = short.Parse(producto.UnitsOnOrder),
-        //             ReorderLevel = short.Parse(producto.ReorderLevel),
-        //             Discontinued = bool.Parse(producto.Discontinued),
-
-        //         };
-
-        //         var productojson = JsonContent.SerializeObject(producto);
-
-        //         if (ModelState.IsValid)
-        //         {
-        //             var response = await _httpClient.PostAsJsonAsync<Producto>("products", producto);
-        //             if (response.IsSuccessStatusCode)
-        //             {
-        //                 return RedirectToAction(nameof(Index));
-        //             }
-        //             return View("Ficha", producto);
-        //         }
-        //         else
-        //         {
-        //             return View("Ficha", producto);
-        //         }
-        //     }
-        //     catch
-        //     {
-        //         return View("Ficha", new Producto());
-        //     }
-        // }
+        // POST: Products/Nuevo
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Nuevo(Producto producto)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var response = await _httpClient.PostAsJsonAsync("products", producto);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                    return View("Ficha", producto);
+                }
+                else
+                {
+                    return View("Ficha", producto);
+                }
+            }
+            catch (Exception e)
+            {
+                // Log the exception
+                Console.WriteLine($"Exception: {e.Message}");
+                return View("Ficha", producto);
+            }
+        }
     }
 }
