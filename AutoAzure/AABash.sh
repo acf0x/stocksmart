@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # INSTRUCCIONES:
 # 0. Establece las variables de entorno de Azure, asegúrate de que no se repitan nombres de recursos
 # 1. Asegúrate de que estés logeado en Azure
@@ -6,22 +8,22 @@
 # 4. Espera a que se creen todos los recursos
 
 # Variables
-$resourceGroup = "miGrupoDeRecursos3"
-$location = "westus2"
-$appServicePlanFront = "planFrontend3"
-$appServicePlanBack = "planBackend3"
-$webAppFront = "miAppFrontend3"
-$webAppBack = "miAppBackend3"
-$functionApp = "miFuncionApp3"
-$storageAccount = "mistoragecuenta3"
-$containerName = "mipubliccontainer3"
-$tableName = "mitabla3"
-$keyVault = "mikeyvault0000003"
-$cosmosDBAccount = "micosmosdb00000003"
-$cosmosDBDatabase = "mibasededatos00000003"
+resourceGroup="miGrupoDeRecursos4"
+location="westus2"
+appServicePlanFront="planFrontend4"
+appServicePlanBack="planBackend4"
+webAppFront="miAppFrontend4"
+webAppBack="miAppBackend4"
+functionApp="miFuncionApp4"
+storageAccount="mistoragecuenta4"
+containerName="mipubliccontainer4"
+tableName="mitabla4"
+keyVault="mikeyvault0000004"
+cosmosDBAccount="micosmosdb00000004"
+cosmosDBDatabase="mibasededatos00000004"
 
 clear
-echo "AUTO AZURE MK1
+echo "Auto Azure MK2
 ░░░░░░░░░░░▄▄▀▀▀▀▀▀▀▀▄▄
 ░░░░░░░░▄▀▀░░░░░░░░░░░░▀▄▄
 ░░░░░░▄▀░░░░░░░░░░░░░░░░░░▀▄
@@ -37,13 +39,13 @@ echo "AUTO AZURE MK1
 ░▀▀▄▄▐▒▀▄▀░▀▄▀░░░░░░░░▀▄▀▄▀▒▌░▐
 ░░░░▀▐▀▄▒▀▄░░░░░░░░▐░░░░░░▀▌▐
 ░░░░░░▌▒▌▐▒▀░░░░░░░░░░░░░░▐▒▐
-░░░░░░▐░▐▒▌░░░░▄▄▀▀▀▀▄░░░░▌▒▐
+░░░░░░▐░▐▒▌░░░░��▄▀▀▀▀▄░░░░▌▒▐
 ░░░░░░░▌▐▒▐▄░░░▐▒▒▒▒▒▌░░▄▀▒░▐
 ░░░░░░▐░░▌▐▐▀▄░░▀▄▄▄▀░▄▀▐▒░░▐
 ░░░░░░▌▌░▌▐░▌▒▀▄▄░░░░▄▌▐░▌▒░▐
 ░░░░░▐▒▐░▐▐░▌▒▒▒▒▀▀▄▀▌▐░░▌▒░▌
 ░░░░░▌▒▒▌▐▒▌▒▒▒▒▒▒▒▒▐▀▄▌░▐▒▒▌
-Made By \x1b@4k4i_"
+Made By @4k4i_"
 echo "----------------------------------------------"
 echo "Iniciando sesión en Azure..."
 # Iniciar sesión en Azure
@@ -88,18 +90,18 @@ az cosmosdb sql database create --account-name $cosmosDBAccount --resource-group
 az cosmosdb sql container create --account-name $cosmosDBAccount --database-name $cosmosDBDatabase --name "Products" --partition-key-path "/ProductID" --resource-group $resourceGroup
 
 # Obtener la cadena de conexión de Cosmos DB
-$connectionString = az cosmosdb keys list --name $cosmosDBAccount --resource-group $resourceGroup --type connection-strings --query connectionStrings[0].connectionString -o tsv
+connectionString=$(az cosmosdb keys list --name $cosmosDBAccount --resource-group $resourceGroup --type connection-strings --query connectionStrings[0].connectionString -o tsv)
 
 # Insertar datos de products.json a Cosmos DB usando Python
 echo "Insertando datos en Cosmos DB..."
-python -c "
+python3 << END
 import json
 from azure.cosmos import CosmosClient, PartitionKey
 
 # Conectar a Cosmos DB
-client = CosmosClient.from_connection_string('$connectionString')
-database = client.get_database_client('$cosmosDBDatabase')
-container = database.get_container_client('Products')
+client = CosmosClient.from_connection_string("$connectionString")
+database = client.get_database_client("$cosmosDBDatabase")
+container = database.get_container_client("Products")
 
 # Leer y insertar datos
 with open('data/products.json', 'r') as file:
@@ -107,8 +109,8 @@ with open('data/products.json', 'r') as file:
     for product in products:
         container.upsert_item(product)
 
-print('Datos insertados con éxito en Cosmos DB.')
-"
+print("Datos insertados con éxito en Cosmos DB.")
+END
 
 # Crear Function App (.NET Core 8, Trigger: Cosmos DB Change Document)
 az functionapp create --resource-group $resourceGroup --consumption-plan-location $location --runtime dotnet-isolated --functions-version 4 --name $functionApp --storage-account $storageAccount --os-type Linux
@@ -122,5 +124,5 @@ echo "Recuerda configurar el trigger de Cosmos DB en el código de tu Function A
 echo "Recursos creados con éxito y datos insertados en Cosmos DB."
 
 # Añadir la orden "presione una tecla para continuar"
-echo "Presione cualquier tecla para continuar..."
-$null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+read -n 1 -s -r -p "Presione cualquier tecla para continuar..."
+echo  # Esto es para añadir una nueva línea después de presionar la tecla
