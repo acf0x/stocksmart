@@ -76,7 +76,9 @@ namespace StockSmart.Controllers
                     if (response.IsSuccessStatusCode)
                     {
                         return RedirectToAction(nameof(Index));
-                    }
+                        // Serializa manualmente para ver cómo queda el JSON
+                        // var json = JsonConvert.SerializeObject(producto);
+                        // Console.WriteLine(json); }
                     return View(producto);
                 }
                 else
