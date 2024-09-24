@@ -77,7 +77,7 @@ az cosmosdb create --name $cosmosDBAccount --resource-group $resourceGroup --kin
 az cosmosdb sql database create --account-name $cosmosDBAccount --resource-group $resourceGroup --name $cosmosDBDatabase
 
 # Crear un contenedor en Cosmos DB
-az cosmosdb sql container create --account-name $cosmosDBAccount --database-name $cosmosDBDatabase --name "Products" --partition-key-path "/ProductID" --resource-group $resourceGroup
+az cosmosdb sql container create --account-name $cosmosDBAccount --database-name $cosmosDBDatabase --name "productos" --partition-key-path "/ProductID" --resource-group $resourceGroup
 
 # Obtener la cadena de conexión de Cosmos DB
 $connectionString = az cosmosdb keys list --name $cosmosDBAccount --resource-group $resourceGroup --type connection-strings --query connectionStrings[0].connectionString -o tsv

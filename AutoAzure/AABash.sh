@@ -8,19 +8,19 @@
 # 4. Espera a que se creen todos los recursos
 
 # Variables
-resourceGroup="miGrupoDeRecursos4"
+resourceGroup="miGrupoDeRecursos6"
 location="westus2"
-appServicePlanFront="planFrontend4"
-appServicePlanBack="planBackend4"
-webAppFront="miAppFrontend4"
-webAppBack="miAppBackend4"
-functionApp="miFuncionApp4"
-storageAccount="mistoragecuenta4"
-containerName="mipubliccontainer4"
-tableName="mitabla4"
-keyVault="mikeyvault0000004"
-cosmosDBAccount="micosmosdb00000004"
-cosmosDBDatabase="mibasededatos00000004"
+appServicePlanFront="planFrontend6"
+appServicePlanBack="planBackend6"
+webAppFront="miAppFrontend6"
+webAppBack="miAppBackend6"
+functionApp="miFuncionApp6"
+storageAccount="mistoragecuenta6"
+containerName="mipubliccontainer6"
+tableName="mitabla6"
+keyVault="mikeyvault0000006"
+cosmosDBAccount="micosmosdb00000006"
+cosmosDBDatabase="mibasededatos00000006"
 
 clear
 echo "Auto Azure MK2

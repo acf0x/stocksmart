@@ -59,12 +59,21 @@ def create_product():
     if not product_data:
         return jsonify({"message": "Datos del producto no proporcionados."}), 400
     
-    # Crear un nuevo producto con un ID único
-    product_data['id'] = str(uuid.uuid4())
-
     try:
+        
+        # Asignar un id único
+        product_data['id'] = str(uuid.uuid4())
+        
+        # Obtener el ProductID más alto
+        query = "SELECT MAX(c.ProductID) AS max_id FROM c"   
+        max_id_item = list(container.query_items(query, enable_cross_partition_query=True))[0]['max_id']
+        print(max_id_item)
+
+        # Asignar un nuevo ProductID
+        product_data['ProductID'] = str(max_id_item + 1)
+
         container.create_item(body=product_data)
-        return jsonify({"message": "Producto creado exitosamente.", "product_id": product_data['ProductID']}), 201
+        return jsonify({"message": "Producto creado exitosamente.", "Product_id": product_data['productID']}), 201
     
     except exceptions.CosmosHttpResponseError as e:
         return jsonify({"Error": str(e)}), 500

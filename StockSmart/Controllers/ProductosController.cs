@@ -72,7 +72,7 @@ namespace StockSmart.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var response = await _httpClient.PutAsJsonAsync<Producto>($"products/{id}", producto);
+                    var response = await _httpClient.PutAsJsonAsync<Producto>($"productos/{id}", producto);
                     if (response.IsSuccessStatusCode)
                     {
                         return RedirectToAction(nameof(Index));
@@ -106,7 +106,7 @@ namespace StockSmart.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var response = await _httpClient.PostAsJsonAsync("products", producto);
+                    var response = await _httpClient.PostAsJsonAsync("productos", producto);
                     if (response.IsSuccessStatusCode)
                     {
                         return RedirectToAction(nameof(Index));

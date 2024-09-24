@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\EOIFormación\\PROYECTO\\stocksmart\\StockSmart\\StockSmart.csproj": {}
+    "C:\\dev\\stocksmart\\StockSmart\\StockSmart.csproj": {}
   },
   "projects": {
-    "C:\\EOIFormación\\PROYECTO\\stocksmart\\StockSmart\\StockSmart.csproj": {
+    "C:\\dev\\stocksmart\\StockSmart\\StockSmart.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\EOIFormación\\PROYECTO\\stocksmart\\StockSmart\\StockSmart.csproj",
+        "projectUniqueName": "C:\\dev\\stocksmart\\StockSmart\\StockSmart.csproj",
         "projectName": "StockSmart",
-        "projectPath": "C:\\EOIFormación\\PROYECTO\\stocksmart\\StockSmart\\StockSmart.csproj",
-        "packagesPath": "C:\\Users\\alvar\\.nuget\\packages\\",
-        "outputPath": "C:\\EOIFormación\\PROYECTO\\stocksmart\\StockSmart\\obj\\",
+        "projectPath": "C:\\dev\\stocksmart\\StockSmart\\StockSmart.csproj",
+        "packagesPath": "C:\\Users\\casfe\\.nuget\\packages\\",
+        "outputPath": "C:\\dev\\stocksmart\\StockSmart\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\alvar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\casfe\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -78,7 +82,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.304/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
