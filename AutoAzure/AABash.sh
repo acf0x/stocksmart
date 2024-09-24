@@ -8,19 +8,19 @@
 # 4. Espera a que se creen todos los recursos
 
 # Variables
-resourceGroup="miGrupoDeRecursos6"
+resourceGroup="miGrupoDeRecursos1"
 location="westus2"
-appServicePlanFront="planFrontend6"
-appServicePlanBack="planBackend6"
-webAppFront="miAppFrontend6"
-webAppBack="miAppBackend6"
-functionApp="miFuncionApp6"
-storageAccount="mistoragecuenta6"
-containerName="mipubliccontainer6"
-tableName="mitabla6"
-keyVault="mikeyvault0000006"
-cosmosDBAccount="micosmosdb00000006"
-cosmosDBDatabase="mibasededatos00000006"
+appServicePlanFront="planFrontend1"
+appServicePlanBack="planBackend1"
+webAppFront="miAppFrontend1"
+webAppBack="miAppBackend1"
+functionApp="miFuncionApp1"
+storageAccount="mistoragecuenta1"
+containerName="mipubliccontainer1"
+tableName="mitabla1"
+keyVault="mikeyvault0000001"
+cosmosDBAccount="micosmosdb00000001"
+cosmosDBDatabase="mibasededatos00000001"
 
 clear
 echo "Auto Azure MK2
@@ -87,7 +87,7 @@ az cosmosdb create --name $cosmosDBAccount --resource-group $resourceGroup --kin
 az cosmosdb sql database create --account-name $cosmosDBAccount --resource-group $resourceGroup --name $cosmosDBDatabase
 
 # Crear un contenedor en Cosmos DB
-az cosmosdb sql container create --account-name $cosmosDBAccount --database-name $cosmosDBDatabase --name "Products" --partition-key-path "/ProductID" --resource-group $resourceGroup
+az cosmosdb sql container create --account-name $cosmosDBAccount --database-name $cosmosDBDatabase --name "Products" --partition-key-path '/ProductID' --resource-group $resourceGroup
 
 # Obtener la cadena de conexión de Cosmos DB
 connectionString=$(az cosmosdb keys list --name $cosmosDBAccount --resource-group $resourceGroup --type connection-strings --query connectionStrings[0].connectionString -o tsv)

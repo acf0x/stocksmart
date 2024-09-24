@@ -9,43 +9,43 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = StockSmart
 build_property.RootNamespace = StockSmart
-build_property.ProjectDir = C:\dev\stocksmart\StockSmart\
+build_property.ProjectDir = E:\dCruzCoding\stocksmart\StockSmart\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\dev\stocksmart\StockSmart
+build_property.MSBuildProjectDirectory = E:\dCruzCoding\stocksmart\StockSmart
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/dev/stocksmart/StockSmart/Views/Home/Index.cshtml]
+[E:/dCruzCoding/stocksmart/StockSmart/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/dev/stocksmart/StockSmart/Views/Productos/Ficha.cshtml]
+[E:/dCruzCoding/stocksmart/StockSmart/Views/Productos/Ficha.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdG9zXEZpY2hhLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/dev/stocksmart/StockSmart/Views/Productos/Index.cshtml]
+[E:/dCruzCoding/stocksmart/StockSmart/Views/Productos/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdG9zXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/dev/stocksmart/StockSmart/Views/Shared/Error.cshtml]
+[E:/dCruzCoding/stocksmart/StockSmart/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/dev/stocksmart/StockSmart/Views/Shared/_ValidationScriptsPartial.cshtml]
+[E:/dCruzCoding/stocksmart/StockSmart/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/dev/stocksmart/StockSmart/Views/_ViewImports.cshtml]
+[E:/dCruzCoding/stocksmart/StockSmart/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/dev/stocksmart/StockSmart/Views/_ViewStart.cshtml]
+[E:/dCruzCoding/stocksmart/StockSmart/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/dev/stocksmart/StockSmart/Views/Shared/_Layout.cshtml]
+[E:/dCruzCoding/stocksmart/StockSmart/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-0r11zdxte7

@@ -58,10 +58,24 @@ namespace StockSmart.Controllers
         public async Task<IActionResult> Ficha(int id)
         {            
             var response = await _httpClient.GetAsync($"productos/{id}");
+            
+            if (!response.IsSuccessStatusCode)
+            {
+                // Manejar el error de la respuesta
+                return StatusCode((int)response.StatusCode, $"Error al obtener el producto: {response.ReasonPhrase}");
+            }
+
             var producto = await response.Content.ReadAsStringAsync();
             var producto_obj = JsonConvert.DeserializeObject<Producto>(producto);
-            return Ok(View(producto_obj));
-        }
+            
+            if (producto_obj == null)
+            {
+                return NotFound(); // O cualquier otro manejo que desees
+            }
+
+            return View(producto_obj);
+              }
+
 
         // PUT: Products/5
         [HttpPost]
@@ -72,23 +86,23 @@ namespace StockSmart.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var response = await _httpClient.PutAsJsonAsync<Producto>($"productos/{id}", producto);
+                    var response = await _httpClient.PutAsJsonAsync($"productos/{id}", producto);
                     if (response.IsSuccessStatusCode)
                     {
                         return RedirectToAction(nameof(Index));
                     }
-                    return View(producto);
                 }
-                else
-                {
-                    return View(producto);
-                }
+
+                // Si llegamos aquí, hubo un error o el modelo no es válido
+                return View(producto); // Esto maneja el caso donde el modelo no es válido o el PUT falló
             }
             catch
             {
+                // Manejo de excepción
                 return View(new Producto());
             }
         }
+
 
 
         // GET: ProductosController/Nuevo
