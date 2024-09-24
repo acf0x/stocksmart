@@ -81,6 +81,7 @@ def create_product():
 
         # Asignar el nuevo ProductID como cadena
         product_data['ProductID'] = str(new_product_id)
+        product_data['productID'] = product_data['ProductID']
 
         # Crear el nuevo producto en la base de datos
         container.create_item(body=product_data)
