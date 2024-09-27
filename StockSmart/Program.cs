@@ -3,7 +3,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddHttpClient("https://127.0.0.1:5000/");
+builder.Services.AddHttpClient("");   //aqui hay que poner el link de la API web con azure en vez de https://127.0.0.1:5000/
 
 var app = builder.Build();
 

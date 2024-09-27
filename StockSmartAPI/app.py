@@ -7,6 +7,7 @@ import uuid
 
 app = Flask(__name__)
 load_dotenv()
+os.environ['FLASK_ENV']='production'
 
 # Configuración de Cosmos DB 
 # TODO: PONERLO BONITO -> incluir archivo configuración-userfriendly

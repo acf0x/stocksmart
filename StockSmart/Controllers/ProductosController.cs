@@ -16,7 +16,7 @@ namespace StockSmart.Controllers
                 ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
             };
             _httpClient = new HttpClient(handler);
-            _httpClient.BaseAddress = new Uri("http://127.0.0.1:5000/");
+            _httpClient.BaseAddress = new Uri("");
         }
 
         // GET: Products
