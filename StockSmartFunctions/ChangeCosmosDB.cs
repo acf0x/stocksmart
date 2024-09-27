@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
+using DotNetEnv;
 
 namespace StockSmartFunctions
 {
@@ -12,13 +13,15 @@ namespace StockSmartFunctions
         public ChangeCosmosDB(ILoggerFactory loggerFactory)
         {
             _logger = loggerFactory.CreateLogger<ChangeCosmosDB>();
+
+            Env.Load();
         }
 
         [Function("ChangeCosmosDB")]
         public void Run([CosmosDBTrigger(
-            databaseName: "databaseName",
-            containerName: "containerName",
-            Connection = "",
+            databaseName: Environment.GetEnvironmentVariable("db"),
+            containerName: Environment.GetEnvironmentVariable("container"),
+            Connection = Environment.GetEnvironmentVariable("connectionstring"),
             LeaseContainerName = "leases",
             CreateLeaseContainerIfNotExists = true)] IReadOnlyList<MyInfo> input)
         {

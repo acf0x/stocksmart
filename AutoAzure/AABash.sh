@@ -8,19 +8,19 @@
 # 4. Espera a que se creen todos los recursos
 
 # Variables
-resourceGroup="miGrupoDeRecursos1"
+resourceGroup="miGrupoDeRecursos91"
 location="westus2"
-appServicePlanFront="planFrontend1"
-appServicePlanBack="planBackend1"
-webAppFront="miAppFrontend1"
-webAppBack="miAppBackend1"
-functionApp="miFuncionApp1"
-storageAccount="mistoragecuenta1"
-containerName="mipubliccontainer1"
-tableName="mitabla1"
-keyVault="mikeyvault0000001"
-cosmosDBAccount="micosmosdb00000001"
-cosmosDBDatabase="mibasededatos00000001"
+locationfunc="eastus"
+appServicePlan="planApps91"
+webAppFront="miAppFrontend91"
+webAppBack="miAppBackend91"
+functionApp="miFuncionApp91"
+storageAccount="mistoragecuenta91"
+containerName="mipubliccontainer91"
+tableName="mitabla91"
+keyVault="mikeyvault0091"
+cosmosDBAccount="micosmosdb0091"
+cosmosDBDatabase="mibasededatos0091"
 
 clear
 echo "Auto Azure MK2
@@ -56,17 +56,14 @@ echo "----------------------------------------------"
 # Crear grupo de recursos
 az group create --name $resourceGroup --location $location
 
-# Crear plan de App Service para Frontend (.NET Core 8)
-az appservice plan create --name $appServicePlanFront --resource-group $resourceGroup --sku S1 --is-linux
+# Crear plan de App Service para Back y Front
+az appservice plan create --name $appServicePlan --resource-group $resourceGroup --sku S1 --is-linux
 
 # Crear Web App para Frontend
-az webapp create --resource-group $resourceGroup --plan $appServicePlanFront --name $webAppFront --runtime "DOTNETCORE:8.0"
-
-# Crear plan de App Service para Backend (Python 3)
-az appservice plan create --name $appServicePlanBack --resource-group $resourceGroup --sku S1 --is-linux
+az webapp create --resource-group $resourceGroup --plan $appServicePlan --name $webAppFront --runtime "DOTNETCORE:8.0"
 
 # Crear Web App para Backend
-az webapp create --resource-group $resourceGroup --plan $appServicePlanBack --name $webAppBack --runtime "PYTHON:3.9"
+az webapp create --resource-group $resourceGroup --plan $appServicePlan --name $webAppBack --runtime "PYTHON:3.9"
 
 # Crear Storage Account
 az storage account create --name $storageAccount --resource-group $resourceGroup --location $location --sku Standard_LRS
@@ -113,7 +110,7 @@ print("Datos insertados con éxito en Cosmos DB.")
 END
 
 # Crear Function App (.NET Core 8, Trigger: Cosmos DB Change Document)
-az functionapp create --resource-group $resourceGroup --consumption-plan-location $location --runtime dotnet-isolated --functions-version 4 --name $functionApp --storage-account $storageAccount --os-type Linux
+az functionapp create --resource-group $resourceGroup --consumption-plan-location $locationfunc --runtime dotnet-isolated --functions-version 4 --name $functionApp --storage-account $storageAccount --os-type Linux
 
 # Configurar la Function App para usar .NET Core 8
 az functionapp config set --resource-group $resourceGroup --name $functionApp --net-framework-version v8.0
