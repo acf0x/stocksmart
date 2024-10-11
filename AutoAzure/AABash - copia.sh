@@ -23,6 +23,7 @@ cosmosDBAccount="micosmosdb"
 cosmosDBDatabase="mibasededatos"
 cosmosDBcontainer="productos"
 
+
 clear
 echo "Auto Azure MK2
 ░░░░░░░░░░░▄▄▀▀▀▀▀▀▀▀▄▄
@@ -54,53 +55,10 @@ az login
 echo "Sesión iniciada en Azure"
 echo "----------------------------------------------"
 
-# Crear grupo de recursos
-az group create --name $resourceGroup --location $location
-
-# Crear plan de App Service para Back y Front
-az appservice plan create --name $appServicePlan --resource-group $resourceGroup --sku S1 --is-linux
-
-# Crear Web App para Frontend
-az webapp create --resource-group $resourceGroup --plan $appServicePlan --name $webAppFront --runtime "DOTNETCORE:8.0"
-
-# Crear Web App para Backend
-az webapp create --resource-group $resourceGroup --plan $appServicePlan --name $webAppBack --runtime "PYTHON:3.9"
-
-# Crear Storage Account
-az storage account create --name $storageAccount --resource-group $resourceGroup --location $location --sku Standard_LRS
-
-# Crear Blob Container público
-az storage container create --account-name $storageAccount --name $containerName --public-access blob
-
-# Crear Table
-az storage table create --account-name $storageAccount --name $tableName
-
-# Crear Key Vault
-az keyvault create --name $keyVault --resource-group $resourceGroup --location $location
-
-# Crear Cosmos DB cuenta
-az cosmosdb create --name $cosmosDBAccount --resource-group $resourceGroup --kind GlobalDocumentDB --capabilities EnableServerless
-
-# Crear base de datos en Cosmos DB
-az cosmosdb sql database create --account-name $cosmosDBAccount --resource-group $resourceGroup --name $cosmosDBDatabase
-
-# Crear un contenedor en Cosmos DB 
-echo "Creando contenedor en Cosmos DB..."
-az cosmosdb sql container create \
-  --resource-group "$resourceGroup" \
-  --account-name "$cosmosDBAccount" \
-  --database-name "$cosmosDBDatabase" \
-  --name "$cosmosDBcontainer" \
-  --partition-key-path "//ProductID"
-
-if [ $? -eq 0 ]; then
-    echo "Contenedor '$cosmosDBcontainer' creado exitosamente en la base de datos '$cosmosDBDatabase'."
-else
-    echo "Error al crear el contenedor. Verifique la información e inténtelo de nuevo."
-fi
-
 # Obtener la cadena de conexión de Cosmos DB
 connectionString=$(az cosmosdb keys list --name $cosmosDBAccount --resource-group $resourceGroup --type connection-strings --query connectionStrings[0].connectionString -o tsv)
+
+# Insertar datos de products.json a Cosmos DB usando Python
 
 # Insertar datos de products.json a Cosmos DB usando Python
 echo "Insertando datos en Cosmos DB..."
@@ -127,10 +85,10 @@ try:
         print("Ele ele")
         print("Datos leídos del archivo:")
         print(json.dumps(products, indent=4))
-        
+
         for product in products:
             try:
-                container.upsert_item(product)   # Este comando me da error
+                container.upsert_item(product)  # Este comando me da error
                 # El error que estás encontrando al intentar insertar 
                         #   indica que uno de los campos proporcionados no es válido.
                 print(f"Producto insertado: {product}") 
@@ -146,11 +104,6 @@ except Exception as e:
     print(f"Ocurrió un error inesperado: {e}")
 END
 
-# Crear Function App (.NET Core 8, Trigger: Cosmos DB Change Document)
-az functionapp create --resource-group $resourceGroup --consumption-plan-location $locationfunc --runtime dotnet-isolated --functions-version 4 --name $functionApp --storage-account $storageAccount --os-type Linux
-
-# Configurar la Function App para usar .NET Core 8
-az functionapp config set --resource-group $resourceGroup --name $functionApp --net-framework-version v8.0
 
 # Configurar el trigger de Cosmos DB para la Function App (esto requiere configuración adicional en el código de la función)
 echo "Recuerda configurar el trigger de Cosmos DB en el código de tu Function App."

@@ -16,7 +16,7 @@ namespace StockSmart.Controllers
                 ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
             };
             _httpClient = new HttpClient(handler);
-            _httpClient.BaseAddress = new Uri("");
+            _httpClient.BaseAddress = new Uri("https://miappbackend94.azurewebsites.net/");
         }
 
         // GET: Products
