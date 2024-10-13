@@ -2,42 +2,68 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
-using DotNetEnv;
+using Microsoft.Azure.Cosmos.Table;
 
 namespace StockSmartFunctions
 {
     public class ChangeCosmosDB
     {
         private readonly ILogger _logger;
+        private readonly CloudTable _logTable;
 
         public ChangeCosmosDB(ILoggerFactory loggerFactory)
         {
             _logger = loggerFactory.CreateLogger<ChangeCosmosDB>();
-
-            Env.Load();
+            // Inicializa la tabla de logs
+            var storageAccount = CloudStorageAccount.Parse("cuentaStorage");
+            var tableClient = storageAccount.CreateCloudTableClient();
+            _logTable = tableClient.GetTableReference("CosmosDB-Logs");
+            _logTable.CreateIfNotExists(); // Crea la tabla si no existe
         }
 
         [Function("ChangeCosmosDB")]
         public void Run([CosmosDBTrigger(
-            databaseName: Environment.GetEnvironmentVariable("db"),
-            containerName: Environment.GetEnvironmentVariable("container"),
-            Connection = Environment.GetEnvironmentVariable("connectionstring"),
+            databaseName: "mibasededatos",
+            containerName: "productos",
+            Connection = "DBconnectionstring",
             LeaseContainerName = "leases",
-            CreateLeaseContainerIfNotExists = true)] IReadOnlyList<MyInfo> input)
+            CreateLeaseContainerIfNotExists = true)] IReadOnlyList<ProductInfo> input)
         {
             if (input != null && input.Count > 0)
             {
                 _logger.LogInformation("Documents modified: " + input.Count);
-                _logger.LogInformation("First document Id: " + input[0].id);
+                LogUpdates(input); // Llama al método para registrar las actualizaciones
+            }
+        }
+
+        private void LogUpdates(IReadOnlyList<ProductInfo> input)
+        {
+            foreach (var item in input)
+            {
+                var logEntity = new DynamicTableEntity("UpdateLog", Guid.NewGuid().ToString())
+                {
+                    Properties = {
+                        { "ProductID", new EntityProperty(item.ProductID) },
+                        { "ProductName", new EntityProperty(item.ProductName) },
+                        { "Timestamp", new EntityProperty(DateTime.UtcNow) }
+                    }
+                };
+                var insertOperation = TableOperation.Insert(logEntity);
+                try
+                {
+                    _logTable.Execute(insertOperation); // Ejecuta la operación de inserción
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"Error al insertar el log: {ex.Message}");
+                }
             }
         }
     }
 
-    public class MyInfo
+    public class ProductInfo
     {
-        public string id { get; set; }
-        public string Text { get; set; }
-        public int Number { get; set; }
-        public bool Boolean { get; set; }
+        public string ProductID { get; set; }
+        public string ProductName { get; set; }
     }
 }

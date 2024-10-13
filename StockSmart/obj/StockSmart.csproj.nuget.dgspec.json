@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "E:\\dCruzCoding\\stocksmart\\StockSmart\\StockSmart.csproj": {}
+    "C:\\dev\\stocksmart\\stocksmart\\StockSmart\\StockSmart.csproj": {}
   },
   "projects": {
-    "E:\\dCruzCoding\\stocksmart\\StockSmart\\StockSmart.csproj": {
+    "C:\\dev\\stocksmart\\stocksmart\\StockSmart\\StockSmart.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\dCruzCoding\\stocksmart\\StockSmart\\StockSmart.csproj",
+        "projectUniqueName": "C:\\dev\\stocksmart\\stocksmart\\StockSmart\\StockSmart.csproj",
         "projectName": "StockSmart",
-        "projectPath": "E:\\dCruzCoding\\stocksmart\\StockSmart\\StockSmart.csproj",
-        "packagesPath": "C:\\Users\\Ataulfo el pitufo\\.nuget\\packages\\",
-        "outputPath": "E:\\dCruzCoding\\stocksmart\\StockSmart\\obj\\",
+        "projectPath": "C:\\dev\\stocksmart\\stocksmart\\StockSmart\\StockSmart.csproj",
+        "packagesPath": "C:\\Users\\casfe\\.nuget\\packages\\",
+        "outputPath": "C:\\dev\\stocksmart\\stocksmart\\StockSmart\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Ataulfo el pitufo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\casfe\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -77,7 +82,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.306/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

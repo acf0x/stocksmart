@@ -10,7 +10,6 @@ load_dotenv()
 os.environ['FLASK_ENV']='production'
 
 # Configuración de Cosmos DB 
-# TODO: PONERLO BONITO -> incluir archivo configuración-userfriendly
 cosmos_url = os.getenv("url")
 cosmos_key = os.getenv("key")
 database_name = os.getenv("db")
@@ -51,6 +50,7 @@ def get_product(id):
     
     except exceptions.CosmosHttpResponseError as e:
         return jsonify({"Error": str(e)}), 500
+
 
 
 # POST product

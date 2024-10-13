@@ -8,44 +8,23 @@
 # 4. Espera a que se creen todos los recursos
 
 # Variables
-resourceGroup="miGrupoDeRecursos91"
+resourceGroup="miGrupoDeRecursos"
 location="westus2"
 locationfunc="eastus"
-appServicePlan="planApps91"
-webAppFront="miAppFrontend91"
-webAppBack="miAppBackend91"
-functionApp="miFuncionApp91"
-storageAccount="mistoragecuenta91"
-containerName="mipubliccontainer91"
-tableName="mitabla91"
-keyVault="mikeyvault0091"
-cosmosDBAccount="micosmosdb0091"
-cosmosDBDatabase="mibasededatos0091"
+appServicePlan="planApps"
+webAppFront="miAppFrontend"
+webAppBack="miAppBackend"
+functionApp="miFuncionApp0098"
+storageAccount="mistoragecuenta"
+containerName="mipubliccontainer"
+tableName="mitabla"
+keyVault="mikeyvault0098"  # Hay que cambiarlo, los nombres se quedan guardados
+cosmosDBAccount="micosmosdb"
+cosmosDBDatabase="mibasededatos"
+cosmosDBcontainer="productos"
 
 clear
-echo "Auto Azure MK2
-░░░░░░░░░░░▄▄▀▀▀▀▀▀▀▀▄▄
-░░░░░░░░▄▀▀░░░░░░░░░░░░▀▄▄
-░░░░░░▄▀░░░░░░░░░░░░░░░░░░▀▄
-░░░░░▌░░░░░░░░░░░░░▀▄░░░░░░░▀▀▄
-░░░░▌░░░░░░░░░░░░░░░░▀▌░░░░░░░░▌
-░░░▐░░░░░░░░░░░░▒░░░░░▌░░░░░░░░▐
-░░░▌▐░░░░▐░░░░▐▒▒░░░░░▌░░░░░░░░░▌
-░░▐░▌░░░░▌░░▐░▌▒▒▒░░░▐░░░░░▒░▌▐░▐
-░░▐░▌▒░░░▌▄▄▀▀▌▌▒▒░▒░▐▀▌▀▌▄▒░▐▒▌░▌
-░░░▌▌░▒░░▐▀▄▌▌▐▐▒▒▒▒▐▐▐▒▐▒▌▌░▐▒▌▄▐
-░▄▀▄▐▒▒▒░▌▌▄▀▄▐░▌▌▒▐░▌▄▀▄░▐▒░▐▒▌░▀▄
-▀▄▀▒▒▌▒▒▄▀░▌█▐░░▐▐▀░░░▌█▐░▀▄▐▒▌▌░░░▀
-░▀▀▄▄▐▒▀▄▀░▀▄▀░░░░░░░░▀▄▀▄▀▒▌░▐
-░░░░▀▐▀▄▒▀▄░░░░░░░░▐░░░░░░▀▌▐
-░░░░░░▌▒▌▐▒▀░░░░░░░░░░░░░░▐▒▐
-░░░░░░▐░▐▒▌░░░░��▄▀▀▀▀▄░░░░▌▒▐
-░░░░░░░▌▐▒▐▄░░░▐▒▒▒▒▒▌░░▄▀▒░▐
-░░░░░░▐░░▌▐▐▀▄░░▀▄▄▄▀░▄▀▐▒░░▐
-░░░░░░▌▌░▌▐░▌▒▀▄▄░░░░▄▌▐░▌▒░▐
-░░░░░▐▒▐░▐▐░▌▒▒▒▒▀▀▄▀▌▐░░▌▒░▌
-░░░░░▌▒▒▌▐▒▌▒▒▒▒▒▒▒▒▐▀▄▌░▐▒▒▌
-Made By @4k4i_"
+
 echo "----------------------------------------------"
 echo "Iniciando sesión en Azure..."
 # Iniciar sesión en Azure
@@ -83,30 +62,67 @@ az cosmosdb create --name $cosmosDBAccount --resource-group $resourceGroup --kin
 # Crear base de datos en Cosmos DB
 az cosmosdb sql database create --account-name $cosmosDBAccount --resource-group $resourceGroup --name $cosmosDBDatabase
 
-# Crear un contenedor en Cosmos DB
-az cosmosdb sql container create --account-name $cosmosDBAccount --database-name $cosmosDBDatabase --name "Products" --partition-key-path '/ProductID' --resource-group $resourceGroup
+# Crear un contenedor en Cosmos DB 
+echo "Creando contenedor en Cosmos DB..."
+az cosmosdb sql container create \
+  --resource-group "$resourceGroup" \
+  --account-name "$cosmosDBAccount" \
+  --database-name "$cosmosDBDatabase" \
+  --name "$cosmosDBcontainer" \
+  --partition-key-path "//ProductID"
+
+if [ $? -eq 0 ]; then
+    echo "Contenedor '$cosmosDBcontainer' creado exitosamente en la base de datos '$cosmosDBDatabase'."
+else
+    echo "Error al crear el contenedor. Verifique la información e inténtelo de nuevo."
+fi
 
 # Obtener la cadena de conexión de Cosmos DB
 connectionString=$(az cosmosdb keys list --name $cosmosDBAccount --resource-group $resourceGroup --type connection-strings --query connectionStrings[0].connectionString -o tsv)
 
 # Insertar datos de products.json a Cosmos DB usando Python
 echo "Insertando datos en Cosmos DB..."
-python3 << END
+python << END
 import json
-from azure.cosmos import CosmosClient, PartitionKey
+from azure.cosmos import CosmosClient, PartitionKey, exceptions
+
+# Definir las variables dentro del bloque de Python
+connection_string = "$connectionString"
+database_name = "$cosmosDBDatabase"
+container_name = "$cosmosDBcontainer"
 
 # Conectar a Cosmos DB
-client = CosmosClient.from_connection_string("$connectionString")
-database = client.get_database_client("$cosmosDBDatabase")
-container = database.get_container_client("Products")
+client = CosmosClient.from_connection_string(connection_string)
+database = client.get_database_client(database_name)
+container = database.get_container_client(container_name)
+print(f"Conexión a cuenta CosmosDB '{database_name}' realizada")
+
 
 # Leer y insertar datos
-with open('data/products.json', 'r') as file:
-    products = json.load(file)
-    for product in products:
-        container.upsert_item(product)
+try:
+    with open(r'C:/products.json', 'r') as file:
+        products = json.load(file)
+        print("Ele ele")
+        print("Datos leídos del archivo:")
+        print(json.dumps(products, indent=4))
+        
+        for product in products:
+            try:
+                product['ProductID'] = str(product['ProductID'])
+                container.upsert_item(product)   # Este comando me da error
+                # El error que estás encontrando al intentar insertar 
+                        #   indica que uno de los campos proporcionados no es válido.
+                print(f"Producto insertado: {product}") 
+            except exceptions.CosmosHttpResponseError as e:
+                print(f"Error al insertar el producto {product}: {e.message}")
 
-print("Datos insertados con éxito en Cosmos DB.")
+    print("Datos insertados con éxito en Cosmos DB.")
+except FileNotFoundError:
+    print("Error: El archivo no se encuentra en la ruta especificada.")
+except json.JSONDecodeError:
+    print("Error: El archivo no se pudo decodificar como JSON. Verifica el formato del archivo.")
+except Exception as e:
+    print(f"Ocurrió un error inesperado: {e}")
 END
 
 # Crear Function App (.NET Core 8, Trigger: Cosmos DB Change Document)
