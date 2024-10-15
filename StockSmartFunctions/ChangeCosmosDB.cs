@@ -14,8 +14,9 @@ namespace StockSmartFunctions
         public ChangeCosmosDB(ILoggerFactory loggerFactory)
         {
             _logger = loggerFactory.CreateLogger<ChangeCosmosDB>();
+
             // Inicializa la tabla de logs
-            var storageAccount = CloudStorageAccount.Parse("cuentaStorage");
+            var storageAccount = CloudStorageAccount.Parse("connectionString de storageAccount");
             var tableClient = storageAccount.CreateCloudTableClient();
             _logTable = tableClient.GetTableReference("CosmosDB-Logs");
             _logTable.CreateIfNotExists(); // Crea la tabla si no existe
@@ -23,9 +24,9 @@ namespace StockSmartFunctions
 
         [Function("ChangeCosmosDB")]
         public void Run([CosmosDBTrigger(
-            databaseName: "mibasededatos",
+            databaseName: "mibasededatos0031",
             containerName: "productos",
-            Connection = "DBconnectionstring",
+            Connection = "connectionString de Cosmos",
             LeaseContainerName = "leases",
             CreateLeaseContainerIfNotExists = true)] IReadOnlyList<ProductInfo> input)
         {

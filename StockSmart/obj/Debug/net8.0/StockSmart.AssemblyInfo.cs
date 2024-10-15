@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("StockSmart")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0b925c64fc06b6b18759930a7b1b785fbce7c72a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+955a474b8ed5d30bf0af74042a12a9bbe9c1b7e1")]
 [assembly: System.Reflection.AssemblyProductAttribute("StockSmart")]
 [assembly: System.Reflection.AssemblyTitleAttribute("StockSmart")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

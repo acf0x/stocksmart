@@ -14,52 +14,66 @@ locationfunc="eastus"
 appServicePlan="planApps"
 webAppFront="miAppFrontend"
 webAppBack="miAppBackend"
-functionApp="miFuncionApp0098"
+functionApp="miFuncionApp0031"  # Hay que cambiarlo, los nombres dan problema
 storageAccount="mistoragecuenta"
 containerName="mipubliccontainer"
-tableName="mitabla"
-keyVault="mikeyvault0098"  # Hay que cambiarlo, los nombres se quedan guardados
-cosmosDBAccount="micosmosdb"
-cosmosDBDatabase="mibasededatos"
+# tableName="mitabla"     >>>>>>>>   no hace falta tabla, ya la creamos con la función (en teoría, pero no funciona)
+keyVault="mikeyvault0031"  # Hay que cambiarlo, los nombres se quedan guardados
+cosmosDBAccount="micosmosdb031" # Hay que cambiarlo, los nombres dan problema (????)
+cosmosDBDatabase="mibasededatos031" # Hay que cambiarlo, los nombres dan problema (????)
 cosmosDBcontainer="productos"
 
 clear
-
-echo "----------------------------------------------"
+echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+echo
+echo "SCRIPT >>> Creación recursos para solución STOCKSMART"
+echo
+echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+echo
 echo "Iniciando sesión en Azure..."
-# Iniciar sesión en Azure
 az login
 echo "Sesión iniciada en Azure"
+
 echo "----------------------------------------------"
 
 # Crear grupo de recursos
+echo "Creando grupo de recursos..."
 az group create --name $resourceGroup --location $location
 
 # Crear plan de App Service para Back y Front
+echo "Creando el plan de App Service que utilizaremos para el Back y Front.."
 az appservice plan create --name $appServicePlan --resource-group $resourceGroup --sku S1 --is-linux
 
 # Crear Web App para Frontend
+echo "Creando webApp para la FrontEnd..."
 az webapp create --resource-group $resourceGroup --plan $appServicePlan --name $webAppFront --runtime "DOTNETCORE:8.0"
 
 # Crear Web App para Backend
+echo "Creando webApp para la BackEnd (o API)..."
 az webapp create --resource-group $resourceGroup --plan $appServicePlan --name $webAppBack --runtime "PYTHON:3.9"
 
 # Crear Storage Account
+echo "Creando cuenta de almacenamiento..."
 az storage account create --name $storageAccount --resource-group $resourceGroup --location $location --sku Standard_LRS
 
 # Crear Blob Container público
+echo "Creando contenedor blob en la cuenta de almacenamiento..."
 az storage container create --account-name $storageAccount --name $containerName --public-access blob
 
 # Crear Table
+echo "Creando tabla en la cuenta de almacenamiento..."
 az storage table create --account-name $storageAccount --name $tableName
 
 # Crear Key Vault
+echo "Creando KeyVault..."
 az keyvault create --name $keyVault --resource-group $resourceGroup --location $location
 
 # Crear Cosmos DB cuenta
+echo "Creando cuenta en Cosmos DB..."
 az cosmosdb create --name $cosmosDBAccount --resource-group $resourceGroup --kind GlobalDocumentDB --capabilities EnableServerless
 
 # Crear base de datos en Cosmos DB
+echo "Creando la base de datos de Cosmos DB..."
 az cosmosdb sql database create --account-name $cosmosDBAccount --resource-group $resourceGroup --name $cosmosDBDatabase
 
 # Crear un contenedor en Cosmos DB 
@@ -126,9 +140,11 @@ except Exception as e:
 END
 
 # Crear Function App (.NET Core 8, Trigger: Cosmos DB Change Document)
+echo "Creando FunctionApp..."
 az functionapp create --resource-group $resourceGroup --consumption-plan-location $locationfunc --runtime dotnet-isolated --functions-version 4 --name $functionApp --storage-account $storageAccount --os-type Linux
 
 # Configurar la Function App para usar .NET Core 8
+echo "Configurando la FunctionApp para .NET Core 8..."
 az functionapp config set --resource-group $resourceGroup --name $functionApp --net-framework-version v8.0
 
 # Configurar el trigger de Cosmos DB para la Function App (esto requiere configuración adicional en el código de la función)
